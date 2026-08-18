@@ -6,30 +6,71 @@
         <title>CineTrack</title>
     </head>
     <body>
-        <h1>CineTrack</h1>
-        <p><strong>CineTrack</strong> é seu gerenciador pessoal de filmes: registre o que já viu, o que está vendo e o que quer ver.</p>
-        <!--Sessão 1-->
-        <h2>Status Possíveis</h2>
-        <ul>
-            <li>Assistido</li>
-            <li>Assistindo</li>
-            <li>Quero assistir</li>                        
-        </ul>
-        <!--Sessão 2-->
-        <h2>Meus filmes favoritos</h2>
-        <ol>
-            <li>A Origem</li>
-            <li>Interestelar</li>
-            <li>Parasita</li>                        
-        </ol>
-        <!--Sessão 3-->
-        <h2>Sobre A Origem</h2>
-        <dl>
-        <dt>Diretor</dt><dd>Christopher Nolan</dd>
-        <dt>Ano</dt><dd>2010</dd>
-        <dt>Gênero</dt><dd>Ficção Científica</dd>
-        </dl>
-        <a href="adicionar.html">+ Adicionar</a>
-        <p>&copy; 2025 CineTrack</p>
+        <header>
+            <h1>CineTrack</h1>
+            <input type="search" aria-label="Buscar Filme">
+            <button>+ Adicionar</button>
+        </header>
+        <nav aria-label="Filtro de Status">
+            <button class="ativo">Todos</button>
+            <button class="ativo">Assistido</button>
+            <button class="ativo">Assistindo</button>
+            <button class="ativo">Quero assistir</button> 
+        </nav>
+        <main>
+            <section id="lista" aria-live="polite">
+                <article class="card">
+                    <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/9e3Dz7aCANy5aRUQF745IlNloJ1.jpg" width=150px height=200px alt="Poster de A Origem">
+                    <h2>A Origem</h2>
+                    <p>2010 • Ficção Científica</p>
+                    <p>Nota: ★★★★★</p>
+                    <span class="badge">Assistido</span> <button>Editar</button> <button>Remover</button>
+                </article>
+
+                <article class="card">
+                    <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/igw938inb6Fy0YVcwIyxQ7Lu5FO.jpg" width=150px height=200px alt="Poster de Parasita">
+                    <h2>Parasita</h2>
+                    <p>2019 • Suspense</p>
+                    <p>Nota: ★★★★☆</p>
+                    <span class="badge">Assistido</span> <button>Editar</button> <button>Remover</button>
+                 </article>
+                 
+                 <article class="card">
+                    <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/imcOp1kJsCsAFCoOtY5OnPrFbAf.jpg" width=150px height=200px alt="Poster de O Auto da Compadecida">
+                    <h2>O Auto da Compadecida</h2>
+                    <p>2000 • Comédia</p>
+                    <p>Nota: ★★★★★</p>
+                    <span class="badge">Assistido</span> <button>Editar</button> <button>Remover</button>
+                </article>
+
+                <article class="card">
+                    <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg" width=150px height=200px alt="Poster de Duna: Parte Dois">
+                    <h2>Duna: Parte Dois</h2>
+                    <p>2024 • Ficção Científica</p>
+                    <p>Nota: ★★★★☆</p>
+                    <span class="badge">Assistido</span> <button>Editar</button> <button>Remover</button>
+                </article>
+
+                <article class="card">
+                    <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/6ricSDD83BClJsFdGB6x7cM0MFQ.jpg" width=150px height=200px alt="Poster de Interestelar">
+                    <h2>Interestelar</h2>
+                    <p>2014 • Ficção Científica</p>
+                    <p>Nota: ★★★★★</p>
+                    <span class="badge">Assistido</span> <button>Editar</button> <button>Remover</button>
+                </article>
+
+                <article class="card">
+                    <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/gfnXixcGC060QcG6JPxN6AMdVsq.jpg" width=150px height=200px alt="Poster de Cidade de Deus">
+                    <h2>Cidade de Deus</h2>
+                    <p>2002 • Drama</p>
+                    <p>Nota: ★★★★☆</p>
+                    <span class="badge">Assistido</span> <button>Editar</button> <button>Remover</button>
+                </article>
+            </section>
+            <footer>
+                <a href="adicionar.html">+ Adicionar </a>
+                <p>CineTrack - UEM</p>
+            </footer>
+        </main>
     </body>
 </html>
