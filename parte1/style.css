@@ -1,0 +1,50 @@
+/*
+Cores:
+    Primária: #FF5733
+    Acento: #C70039
+    Neutro: #F0F0F0
+*/
+* {
+    box-sizing: border-box;
+    margin: 0; padding: 0;}
+
+html { font-size: 16px;}
+
+body {
+    font-family: system-ui, sans-serif;
+    color: hsl(253, 49%, 30%);
+    background: hwb(216 82% 16%);
+    line-height: 1.5;}
+
+header {
+    background: hsl(253, 49%, 30%);
+    color: hsl(0, 0%, 100%);
+    padding: 10px;}
+
+nav {
+    padding: 10px;}
+
+.card {
+    background: hsl(0, 0%, 100%);
+    padding: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px #0002;
+    margin: 20px;}
+
+.card + .card {
+    margin-top: 8px;
+}
+
+.add {
+    color: white;
+    background: red;
+    border-radius: 4px;
+    }
+
+img {
+    max-width: 100%; display: block;
+    border-radius: 8px;
+    margin:10px;
+}
+
+button {font: inherit; cursor: pointer;}
