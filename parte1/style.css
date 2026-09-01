@@ -1,3 +1,5 @@
+Claro. Corrigi os erros de sintaxe e alguns conflitos de CSS, sem adicionar comentários.
+
 /*
 Cores:
     Primária: hsl(253, 49%, 30%)
@@ -35,6 +37,7 @@ header {
 
 header h1 {
     flex: 0 0 auto;
+    font-size: clamp(1.2rem, 1rem + 2.5vw, 2.5rem);
 }
 
 header input {
@@ -70,10 +73,25 @@ nav button.ativo {
 }
 
 #lista {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 16px;
     padding: 16px 24px;
+}
+
+@media (min-width: 1024px) {
+    #lista {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.badge {
+    display: inline-block;
+    border-radius: 80px;
+    color: black;
+    background: grey;
+    padding: 5px 10px;
+    margin-bottom: 5px;
 }
 
 .card {
@@ -82,8 +100,8 @@ nav button.ativo {
     border-radius: 8px;
     box-shadow: 0 1px 4px #0002;
     padding: 16px;
-    width: 200px;
     min-height: 200px;
+    display: flex;
     flex-direction: column;
     gap: 16px;
     position: relative;
@@ -97,7 +115,6 @@ nav button.ativo {
     margin-top: auto;
     display: flex;
     gap: 8px;
-    
 }
 
 .card .acoes button {
@@ -106,7 +123,15 @@ nav button.ativo {
     border-radius: 4px;
 }
 
-.add {
+.card img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.add_big {
+    display: inline-block;
     color: white;
     background: red;
     border: none;
@@ -114,19 +139,31 @@ nav button.ativo {
     padding: 8px 14px;
 }
 
-.add:hover {
-    background: darkred;
+.add_small {
+    display: none;
+    color: white;
+    background: red;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 14px;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 8px;
-    margin: 10px auto 0;
+.add_big:hover,
+.add_small:hover {
+    background: darkred;
 }
 
 button {
     font: inherit;
     cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+    .add_big {
+        display: none;
+    }
+
+    .add_small {
+        display: inline-block;
+    }
 }
