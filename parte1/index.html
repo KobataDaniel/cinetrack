@@ -2,96 +2,180 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CineTrack</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <h1>CineTrack</h1>
+
         <input type="search" aria-label="Buscar Filme">
+
         <button class="add_big">+ Adicionar</button>
         <button class="add_small">+</button>
     </header>
+
     <nav aria-label="Filtro de Status">
         <button class="ativo">Todos</button>
-        <button class="">Assistido</button>
-        <button class="">Assistindo</button>
-        <button class="">Quero assistir</button> 
+        <button>Assistido</button>
+        <button>Assistindo</button>
+        <button>Quero assistir</button>
     </nav>
+
     <main>
         <section id="lista" aria-live="polite">
+
             <article class="card">
-                <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/9e3Dz7aCANy5aRUQF745IlNloJ1.jpg" alt="Poster de A Origem">
+                <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/9e3Dz7aCANy5aRUQF745IlNloJ1.jpg"
+                     alt="Poster de A Origem">
                 <h2>A Origem</h2>
                 <p>2010 • Ficção Científica</p>
                 <p>Nota: ★★★★★</p>
-                <span class="badge">Assistido</span>
+                <span class="badge assistido">Assistido</span>
+
                 <div class="acoes">
-                    <button>Editar</button> <button>Remover</button>
+                    <button>Editar</button>
+                    <button>Remover</button>
                 </div>
             </article>
 
             <article class="card">
-                <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/igw938inb6Fy0YVcwIyxQ7Lu5FO.jpg" alt="Poster de Parasita">
+                <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/igw938inb6Fy0YVcwIyxQ7Lu5FO.jpg"
+                     alt="Poster de Parasita">
                 <h2>Parasita</h2>
                 <p>2019 • Suspense</p>
                 <p>Nota: ★★★★☆</p>
-                <span class="badge">Assistido</span>
+                <span class="badge assistido">Assistido</span>
+
                 <div class="acoes">
-                    <button>Editar</button> <button>Remover</button>
+                    <button>Editar</button>
+                    <button>Remover</button>
                 </div>
-                </article>
-                
-                <article class="card">
-                <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/imcOp1kJsCsAFCoOtY5OnPrFbAf.jpg" alt="Poster de O Auto da Compadecida">
+            </article>
+
+            <article class="card">
+                <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/imcOp1kJsCsAFCoOtY5OnPrFbAf.jpg"
+                     alt="Poster de O Auto da Compadecida">
                 <h2>O Auto da Compadecida</h2>
                 <p>2000 • Comédia</p>
                 <p>Nota: ★★★★★</p>
-                <span class="badge">Assistido</span>
+                <span class="badge assistido">Assistido</span>
+
                 <div class="acoes">
-                    <button>Editar</button> <button>Remover</button>
+                    <button>Editar</button>
+                    <button>Remover</button>
                 </div>
             </article>
 
             <article class="card">
-                <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg" alt="Poster de Duna: Parte Dois">
+                <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+                     alt="Poster de Duna: Parte Dois">
                 <h2>Duna: Parte Dois</h2>
                 <p>2024 • Ficção Científica</p>
                 <p>Nota: ★★★★☆</p>
-                <span class="badge">Assistido</span>
+                <span class="badge assistindo">Assistindo</span>
+
                 <div class="acoes">
-                    <button>Editar</button> <button>Remover</button>
+                    <button>Editar</button>
+                    <button>Remover</button>
                 </div>
             </article>
 
             <article class="card">
-                <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/6ricSDD83BClJsFdGB6x7cM0MFQ.jpg" alt="Poster de Interestelar">
+                <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/6ricSDD83BClJsFdGB6x7cM0MFQ.jpg"
+                     alt="Poster de Interestelar">
                 <h2>Interestelar</h2>
                 <p>2014 • Ficção Científica</p>
                 <p>Nota: ★★★★★</p>
-                <span class="badge">Assistido</span>
+                <span class="badge assistido">Assistido</span>
+
                 <div class="acoes">
-                    <button>Editar</button> <button>Remover</button>
+                    <button>Editar</button>
+                    <button>Remover</button>
                 </div>
             </article>
 
             <article class="card">
-                <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/gfnXixcGC060QcG6JPxN6AMdVsq.jpg" alt="Poster de Cidade de Deus">
+                <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/gfnXixcGC060QcG6JPxN6AMdVsq.jpg"
+                     alt="Poster de Cidade de Deus">
                 <h2>Cidade de Deus</h2>
                 <p>2002 • Drama</p>
                 <p>Nota: ★★★★☆</p>
-                <span class="badge">Assistido</span>
+                <span class="badge quero">Quero assistir</span>
+
                 <div class="acoes">
-                    <button>Editar</button> <button>Remover</button>
+                    <button>Editar</button>
+                    <button>Remover</button>
                 </div>
             </article>
+
         </section>
+
         <footer>
             <p><a href="adicionar.html">+ Adicionar</a></p>
             <p><a href="sobre.html">Sobre</a></p>
             <p>CineTrack - UEM</p>
         </footer>
     </main>
+
+    <div id="modal" hidden>
+        <div class="modal-conteudo">
+
+            <button class="modal-fechar" type="button" aria-label="Fechar modal">
+                ×
+            </button>
+
+            <h2>Adicionar filme</h2>
+
+            <form id="form-filme" action="index.html" method="post">
+
+                <div class="campo">
+                    <label>Título</label>
+                    <input type="text" name="titulo" required="required">
+                </div>
+
+                <div class="campo">
+                    <label>Ano</label>
+                    <input type="number" name="ano" min="1888" max="2030">
+                </div>
+
+                <div class="campo">
+                    <label>Gênero</label>
+                    <input type="text" name="genero" required="required">
+                </div>
+
+                <div class="campo">
+                    <label>URL do pôster</label>
+                    <input type="text" name="url">
+                </div>
+
+                <div class="campo">
+                    <label>Status</label>
+                    <select name="status" required="required">
+                        <option>Quero assistir</option>
+                        <option>Assistindo</option>
+                        <option>Assistido</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Nota(1 a 5)</label>
+                    <input type="number" name="nota" min="1" max="5">
+                </div>
+
+                <div class="campo">
+                    <label>Comentário</label>
+                    <textarea name="comentario"></textarea>
+                </div>
+
+                <div class="acoes">
+                    <button type="button">Cancelar</button>
+                    <button type="submit">Salvar</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
 </body>
 </html>
