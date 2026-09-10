@@ -26,7 +26,7 @@
     <main>
         <section id="lista" aria-live="polite">
 
-            <article class="card">
+            <article class="card" data-status="assistido" data-nota="5">
                 <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/9e3Dz7aCANy5aRUQF745IlNloJ1.jpg"
                      alt="Poster de A Origem">
                 <h2>A Origem</h2>
@@ -40,7 +40,7 @@
                 </div>
             </article>
 
-            <article class="card">
+            <article class="card" data-status="assistido" data-nota="4">
                 <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/igw938inb6Fy0YVcwIyxQ7Lu5FO.jpg"
                      alt="Poster de Parasita">
                 <h2>Parasita</h2>
@@ -54,7 +54,7 @@
                 </div>
             </article>
 
-            <article class="card">
+            <article class="card" data-status="assistido" data-nota="5">
                 <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/imcOp1kJsCsAFCoOtY5OnPrFbAf.jpg"
                      alt="Poster de O Auto da Compadecida">
                 <h2>O Auto da Compadecida</h2>
@@ -68,7 +68,7 @@
                 </div>
             </article>
 
-            <article class="card">
+            <article class="card" data-status="assistindo" data-nota="4">
                 <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
                      alt="Poster de Duna: Parte Dois">
                 <h2>Duna: Parte Dois</h2>
@@ -82,7 +82,7 @@
                 </div>
             </article>
 
-            <article class="card">
+            <article class="card" data-status="assistido" data-nota="5">
                 <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/6ricSDD83BClJsFdGB6x7cM0MFQ.jpg"
                      alt="Poster de Interestelar">
                 <h2>Interestelar</h2>
@@ -96,7 +96,7 @@
                 </div>
             </article>
 
-            <article class="card">
+            <article class="card" data-status="Quero assistir" data-nota="4">
                 <img src="https://www.themoviedb.org/t/p/w600_and_h900_face/gfnXixcGC060QcG6JPxN6AMdVsq.jpg"
                      alt="Poster de Cidade de Deus">
                 <h2>Cidade de Deus</h2>
@@ -115,7 +115,7 @@
         <footer>
             <p><a href="adicionar.html">+ Adicionar</a></p>
             <p><a href="sobre.html">Sobre</a></p>
-            <p>CineTrack - UEM</p>
+            <p><small id="total-filmes"></small></p>
         </footer>
     </main>
 
@@ -177,5 +177,6 @@
             </form>
         </div>
     </div>
+    <script src="app.js"></script>
 </body>
 </html>

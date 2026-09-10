@@ -184,7 +184,7 @@ nav button.ativo {
 .add_big,
 .add_small {
     color: var(--cor-branca);
-    background: var(--cor-principal);
+    background: red;
     border: 1px solid var(--cor-branca);
     border-radius: 4px;
     padding: 8px 14px;
