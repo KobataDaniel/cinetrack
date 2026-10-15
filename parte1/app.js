@@ -24,25 +24,7 @@ const estrelas = (nota) => {
     return resultado;
 };
 
-const cards = document.querySelectorAll(".card");
-
-for (const card of cards) {
-    const status = card.dataset.status;
-    const nota = Number(card.dataset.nota);
-
-    const badge = card.querySelector(".badge");
-    const notaElemento = card.querySelector("p:nth-of-type(2)");
-
-    badge.textContent = rotuloStatus(status);
-    notaElemento.textContent = `Nota: ${estrelas(nota)}`;
-}
-
-const TOTAL = 6;
-
 const totalFilmes = document.querySelector("#total-filmes");
-
-totalFilmes.textContent =
-    `CineTrack © 2026 · ${TOTAL} filmes cadastrados`;
 
 const filmesIniciais = [
     {
@@ -130,11 +112,79 @@ function renderizarCards(lista) {
             </span>
 
             <div class="acoes">
-                <button onclick="editarFilme(${filme.id})">Editar</button>
-                <button onclick="removerFilme(${filme.id})">Remover</button>
+                <button class="btn-editar" data-id="${filme.id}">Editar</button>
+                <button class="btn-remover" data-id="${filme.id}">Remover</button>
             </div>
 
         </article>
     `).join("");
 }
-renderizarCards(filmesIniciais);
+
+let filmes = [...filmesIniciais]
+
+renderizarCards(filmes);
+
+
+
+const lista = document.querySelector("#lista");
+
+lista.addEventListener("click", (e) => {
+    const alvo = e.target;
+
+    if (!(alvo instanceof Element)) return;
+
+    const botao = alvo.closest(".btn-remover");
+
+    if (!botao) return;
+
+    if (!confirm("Deseja remover este filme?")) return;
+
+    const card = botao.closest(".card");
+    const id = Number(card.dataset.id);
+
+    filmes = filmes.filter((filme) => filme.id !== id);
+
+    atualizarLista();
+});
+
+
+
+
+const nav = document.querySelector("nav");
+
+nav.addEventListener("click", (e) => {
+    const alvo = e.target;
+
+    if (!(alvo instanceof Element)) return;
+
+    const botao = alvo.closest("button");
+
+    if (!botao || !nav.contains(botao)) return;
+
+    nav.querySelector(".ativo")?.classList.remove("ativo");
+    botao.classList.add("ativo");
+
+    statusAtual = botao.dataset.status;
+
+    atualizarLista();
+});
+
+
+
+let statusAtual = "todos";
+
+function atualizarTotal() {
+    totalFilmes.textContent =
+        `CineTrack © 2026 · ${filmes.length} filmes cadastrados`;
+}
+
+function atualizarLista() {
+    const filmesFiltrados = filmes.filter((filme) =>
+        statusAtual === "todos" || filme.status === statusAtual
+    );
+
+    renderizarCards(filmesFiltrados);
+    atualizarTotal();
+}
+
+atualizarLista();

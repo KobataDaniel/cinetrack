@@ -19,11 +19,12 @@
     </header>
 
     <nav aria-label="Filtro de Status">
-        <button class="ativo">Todos</button>
-        <button>Assistido</button>
-        <button>Assistindo</button>
-        <button>Quero assistir</button>
+        <button class="ativo" data-status="todos">Todos</button>
+        <button data-status="assistido">Assistido</button>
+        <button data-status="assistindo">Assistindo</button>
+        <button data-status="quero">Quero assistir</button>
     </nav>
+
 
     <main>
         <section id="lista" aria-live="polite">
@@ -88,8 +89,8 @@
                 </div>
 
                 <div class="acoes">
-                    <button type="button">Cancelar</button>
-                    <button type="submit">Salvar</button>
+                    <button class="btn-editar" data-id="${filme.id}">Editar</button>
+                    <button class="btn-remover" data-id="${filme.id}">Remover</button>
                 </div>
 
             </form>
