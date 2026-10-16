@@ -1,43 +1,52 @@
 function rotuloStatus(status) {
-    if (status === "assistido") {
-        return "Assistido";
-    }
-    if (status === "assistindo") {
-        return "Assistindo";
-    }
-    if (status === "quero") {
-        return "Quero assistir";
-    }
+    if (status === "assistido") return "Assistido";
+    if (status === "assistindo") return "Assistindo";
+    if (status === "quero") return "Quero assistir";
     return status;
 }
 
 const estrelas = (nota) => {
     let resultado = "";
+
     for (let i = 1; i <= 5; i++) {
         resultado += i <= nota ? "★" : "☆";
     }
+
     return resultado;
 };
 
-// Validação pura (Aula 4)
+// Validação
 function validarFilme(filme) {
     const erros = [];
-    if (!filme.titulo) {
+
+    if (!filme.titulo || !filme.titulo.trim()) {
         erros.push("Título obrigatório");
     }
+
     if (filme.ano < 1888 || filme.ano > 2030) {
         erros.push("Ano inválido");
     }
-    return { valido: erros.length === 0, erros };
+
+    return {
+        valido: erros.length === 0,
+        erros
+    };
 }
 
-const gerarId = (lista) => Math.max(0, ...lista.map((f) => f.id)) + 1;
+const gerarId = (lista) =>
+    Math.max(0, ...lista.map((f) => f.id)) + 1;
 
+// Elementos HTML
 const totalFilmes = document.querySelector("#total-filmes");
 const lista = document.querySelector("#lista");
 const modal = document.querySelector("#modal");
 const form = document.querySelector("#form-filme");
+const nav = document.querySelector("nav");
+const busca = document.querySelector("#busca");
 
+const CHAVE_STORAGE = "cinetrack:filmes";
+
+// Dados iniciais
 const filmesIniciais = [
     {
         id: 1,
@@ -101,11 +110,44 @@ const filmesIniciais = [
     }
 ];
 
-let filmes = [...filmesIniciais];
-let editandoId = null; 
+// Persistência com localStorage
+function carregar() {
+    try {
+        const dados = localStorage.getItem(CHAVE_STORAGE);
+
+        if (dados === null) {
+            return filmesIniciais.map((filme) => ({ ...filme }));
+        }
+
+        const filmesSalvos = JSON.parse(dados);
+
+        if (!Array.isArray(filmesSalvos)) {
+            return filmesIniciais.map((filme) => ({ ...filme }));
+        }
+
+        return filmesSalvos;
+    } catch (erro) {
+        console.error("Erro ao carregar filmes:", erro);
+        return filmesIniciais.map((filme) => ({ ...filme }));
+    }
+}
+
+function salvar() {
+    try {
+        localStorage.setItem(CHAVE_STORAGE, JSON.stringify(filmes));
+    } catch (erro) {
+        console.error("Erro ao salvar filmes:", erro);
+        alert("Não foi possível salvar os filmes neste navegador.");
+    }
+}
+
+// Estado da aplicação
+let filmes = carregar();
+let editandoId = null;
 let statusAtual = "todos";
+let termoBusca = "";
 
-
+// Criação segura dos cards
 function criarCard(f) {
     const card = document.createElement("article");
     card.className = "card";
@@ -114,8 +156,8 @@ function criarCard(f) {
     card.dataset.nota = f.nota;
 
     const img = document.createElement("img");
-    img.src = f.poster;
-    img.alt = `Poster de ${f.titulo}`;
+    img.src = f.poster || "";
+    img.alt = `Pôster de ${f.titulo}`;
 
     const h2 = document.createElement("h2");
     h2.textContent = f.titulo;
@@ -151,18 +193,55 @@ function criarCard(f) {
 
 function renderizarCards(listaFilmes) {
     const frag = document.createDocumentFragment();
-    listaFilmes.forEach((f) => {
-        frag.appendChild(criarCard(f));
+
+    listaFilmes.forEach((filme) => {
+        frag.appendChild(criarCard(filme));
     });
+
     lista.replaceChildren(frag);
 }
 
+// Busca e filtros
+function aplicarFiltros() {
+    const termo = termoBusca.trim().toLocaleLowerCase("pt-BR");
 
-const abrir = () => (modal.hidden = false);
-const fechar = () => (modal.hidden = true);
+    return filmes.filter((filme) => {
+        const correspondeStatus =
+            statusAtual === "todos" ||
+            filme.status === statusAtual;
 
-// Botão Adicionar (Desktop e Mobile)
-document.querySelectorAll("header button.add_big, header button.add_small, footer a[href='adicionar.html']").forEach(btn => {
+        const textoFilme =
+            `${filme.titulo} ${filme.genero} ${filme.ano}`
+                .toLocaleLowerCase("pt-BR");
+
+        const correspondeBusca = textoFilme.includes(termo);
+
+        return correspondeStatus && correspondeBusca;
+    });
+}
+
+function atualizarTotal() {
+    totalFilmes.textContent =
+        `CineTrack © 2026 · ${filmes.length} filmes cadastrados`;
+}
+
+function atualizar() {
+    renderizarCards(aplicarFiltros());
+    atualizarTotal();
+}
+
+// Modal
+const abrir = () => {
+    modal.hidden = false;
+};
+
+const fechar = () => {
+    modal.hidden = true;
+};
+
+document.querySelectorAll(
+    "header button.add_big, header button.add_small, footer a[href='adicionar.html']"
+).forEach((btn) => {
     btn.addEventListener("click", (e) => {
         e.preventDefault();
         editandoId = null;
@@ -171,7 +250,6 @@ document.querySelectorAll("header button.add_big, header button.add_small, foote
     });
 });
 
-// Fechar modal com botão de fechar ou tecla Escape
 document.querySelector(".modal-fechar").addEventListener("click", fechar);
 
 document.addEventListener("keydown", (e) => {
@@ -180,104 +258,137 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
+// Adicionar e editar
 form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const dados = Object.fromEntries(new FormData(form));
+
     dados.ano = Number(dados.ano);
     dados.nota = Number(dados.nota);
 
     const { valido, erros } = validarFilme(dados);
+
     if (!valido) {
         alert(erros.join("\n"));
         return;
     }
 
+    const poster = dados.url ||
+        "https://www.themoviedb.org/t/p/w600_and_h900_face/placeholder.jpg";
+
+    const {
+        url,
+        ...dadosFilme
+    } = dados;
+
     if (editandoId !== null) {
-        // Editando filme existente
-        filmes = filmes.map((f) =>
-            f.id === editandoId ? { ...f, ...dados } : f
+        filmes = filmes.map((filme) =>
+            filme.id === editandoId
+                ? {
+                    ...filme,
+                    ...dadosFilme,
+                    poster
+                }
+                : filme
         );
     } else {
-        // Adicionando novo filme
         const novoFilme = {
             id: gerarId(filmes),
-            ...dados,
-            poster: dados.url || "https://www.themoviedb.org/t/p/w600_and_h900_face/placeholder.jpg"
+            ...dadosFilme,
+            poster
         };
+
         filmes = [...filmes, novoFilme];
     }
 
-    atualizarLista();
+    salvar();
+    atualizar();
     fechar();
 });
 
-
-
+// Delegação de eventos: editar e remover
 lista.addEventListener("click", (e) => {
     const alvo = e.target;
+
     if (!(alvo instanceof Element)) return;
 
-    // Ação de Remover
     const botaoRemover = alvo.closest(".btn-remover");
+
     if (botaoRemover) {
         if (!confirm("Deseja remover este filme?")) return;
-        const card = botaoRemover.closest(".card");
-        const id = Number(card.dataset.id);
+
+        const id = Number(botaoRemover.dataset.id);
+
         filmes = filmes.filter((filme) => filme.id !== id);
-        atualizarLista();
+
+        salvar();
+        atualizar();
         return;
     }
 
-    // Ação de Editar
     const botaoEditar = alvo.closest(".btn-editar");
-    if (botaoEditar) {
-        const card = botaoEditar.closest(".card");
-        editandoId = Number(card.dataset.id);
-        const f = filmes.find((x) => x.id === editandoId);
 
-        if (f) {
-            form.elements.titulo.value = f.titulo;
-            form.elements.ano.value = f.ano;
-            form.elements.genero.value = f.genero;
-            form.elements.url.value = f.poster;
-            form.elements.status.value = f.status;
-            form.elements.nota.value = f.nota;
-            form.elements.comentario.value = f.comentario || "";
-            abrir();
-        }
+    if (botaoEditar) {
+        editandoId = Number(botaoEditar.dataset.id);
+
+        const filme = filmes.find(
+            (item) => item.id === editandoId
+        );
+
+        if (!filme) return;
+
+        form.elements.titulo.value = filme.titulo;
+        form.elements.ano.value = filme.ano;
+        form.elements.genero.value = filme.genero;
+        form.elements.url.value = filme.poster || "";
+        form.elements.status.value = filme.status;
+        form.elements.nota.value = filme.nota;
+        form.elements.comentario.value = filme.comentario || "";
+
+        abrir();
     }
 });
 
-
-
-const nav = document.querySelector("nav");
-
+// Filtros por status
 nav.addEventListener("click", (e) => {
     const alvo = e.target;
+
     if (!(alvo instanceof Element)) return;
 
     const botao = alvo.closest("button");
+
     if (!botao || !nav.contains(botao)) return;
 
     nav.querySelector(".ativo")?.classList.remove("ativo");
     botao.classList.add("ativo");
 
     statusAtual = botao.dataset.status;
-    atualizarLista();
+
+    atualizar();
 });
 
-function atualizarTotal() {
-    totalFilmes.textContent = `CineTrack © 2026 · ${filmes.length} filmes cadastrados`;
+// Debounce: espera 300 ms após a digitação
+function debounce(funcao, intervalo) {
+    let temporizador;
+
+    return (...args) => {
+        clearTimeout(temporizador);
+
+        temporizador = setTimeout(() => {
+            funcao(...args);
+        }, intervalo);
+    };
 }
 
-function atualizarLista() {
-    const filmesFiltrados = filmes.filter(
-        (filme) => statusAtual === "todos" || filme.status === statusAtual
-    );
-
-    renderizarCards(filmesFiltrados);
-    atualizarTotal();
+function aoDigitar() {
+    termoBusca = busca.value;
+    atualizar();
 }
 
-atualizarLista();
+if (busca) {
+    busca.addEventListener("input", debounce(aoDigitar, 300));
+}
+
+// Renderização inicial
+atualizar();
