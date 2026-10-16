@@ -112,8 +112,6 @@ nav button.ativo {
     grid-template-columns: 1fr;
     gap: var(--espaco);
     padding: var(--espaco) 24px;
-    max-height: 75vh;
-    overflow-y: auto;
 }
 
 .card {
@@ -424,5 +422,19 @@ footer a:hover {
 
     .add_small {
         display: inline-block;
+    }
+}
+
+.erro-msg {
+    color: #d32f2f;
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: pre-line;
+    margin-bottom: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .erro-msg {
+        color: #ff5252;
     }
 }

@@ -48,6 +48,8 @@
             <h2>Adicionar filme</h2>
 
             <form id="form-filme" action="index.html" method="post">
+                
+                <div id="mensagem-erro" class="erro-msg"></div>
 
                 <div class="campo">
                     <label>Título</label>
@@ -56,7 +58,7 @@
 
                 <div class="campo">
                     <label>Ano</label>
-                    <input type="number" name="ano" min="1888" max="2030">
+                    <input type="number" name="ano" min="1888" max="2030" required>
                 </div>
 
                 <div class="campo">
@@ -80,7 +82,7 @@
 
                 <div class="campo">
                     <label>Nota(1 a 5)</label>
-                    <input type="number" name="nota" min="1" max="5">
+                    <input type="number" name="nota" min="1" max="5" required>
                 </div>
 
                 <div class="campo">
@@ -89,8 +91,8 @@
                 </div>
 
                 <div class="acoes">
-                    <button class="btn-editar" data-id="${filme.id}">Editar</button>
-                    <button class="btn-remover" data-id="${filme.id}">Remover</button>
+                    <button type="button" class="btn-cancelar">Cancelar</button>
+                    <button type="submit">Salvar</button>
                 </div>
 
             </form>

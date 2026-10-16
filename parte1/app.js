@@ -15,7 +15,6 @@ const estrelas = (nota) => {
     return resultado;
 };
 
-// Validação
 function validarFilme(filme) {
     const erros = [];
 
@@ -23,8 +22,12 @@ function validarFilme(filme) {
         erros.push("Título obrigatório");
     }
 
-    if (filme.ano < 1888 || filme.ano > 2030) {
+    if (!filme.ano || filme.ano < 1888 || filme.ano > 2030) {
         erros.push("Ano inválido");
+    }
+    
+    if (!filme.nota || filme.nota < 1 || filme.nota > 5) {
+        erros.push("Nota deve ser entre 1 e 5");
     }
 
     return {
@@ -36,17 +39,16 @@ function validarFilme(filme) {
 const gerarId = (lista) =>
     Math.max(0, ...lista.map((f) => f.id)) + 1;
 
-// Elementos HTML
 const totalFilmes = document.querySelector("#total-filmes");
 const lista = document.querySelector("#lista");
 const modal = document.querySelector("#modal");
 const form = document.querySelector("#form-filme");
 const nav = document.querySelector("nav");
 const busca = document.querySelector("#busca");
+const msgErro = document.querySelector("#mensagem-erro");
 
 const CHAVE_STORAGE = "cinetrack:filmes";
 
-// Dados iniciais
 const filmesIniciais = [
     {
         id: 1,
@@ -110,7 +112,6 @@ const filmesIniciais = [
     }
 ];
 
-// Persistência com localStorage
 function carregar() {
     try {
         const dados = localStorage.getItem(CHAVE_STORAGE);
@@ -141,13 +142,11 @@ function salvar() {
     }
 }
 
-// Estado da aplicação
 let filmes = carregar();
 let editandoId = null;
 let statusAtual = "todos";
 let termoBusca = "";
 
-// Criação segura dos cards
 function criarCard(f) {
     const card = document.createElement("article");
     card.className = "card";
@@ -201,7 +200,6 @@ function renderizarCards(listaFilmes) {
     lista.replaceChildren(frag);
 }
 
-// Busca e filtros
 function aplicarFiltros() {
     const termo = termoBusca.trim().toLocaleLowerCase("pt-BR");
 
@@ -210,9 +208,7 @@ function aplicarFiltros() {
             statusAtual === "todos" ||
             filme.status === statusAtual;
 
-        const textoFilme =
-            `${filme.titulo} ${filme.genero} ${filme.ano}`
-                .toLocaleLowerCase("pt-BR");
+        const textoFilme = filme.titulo.toLocaleLowerCase("pt-BR");
 
         const correspondeBusca = textoFilme.includes(termo);
 
@@ -230,13 +226,13 @@ function atualizar() {
     atualizarTotal();
 }
 
-// Modal
 const abrir = () => {
     modal.hidden = false;
 };
 
 const fechar = () => {
     modal.hidden = true;
+    if(msgErro) msgErro.textContent = "";
 };
 
 document.querySelectorAll(
@@ -246,11 +242,17 @@ document.querySelectorAll(
         e.preventDefault();
         editandoId = null;
         form.reset();
+        if(msgErro) msgErro.textContent = "";
         abrir();
     });
 });
 
 document.querySelector(".modal-fechar").addEventListener("click", fechar);
+
+const btnCancelar = document.querySelector(".btn-cancelar");
+if (btnCancelar) {
+    btnCancelar.addEventListener("click", fechar);
+}
 
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !modal.hidden) {
@@ -258,7 +260,6 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
-// Adicionar e editar
 form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -270,13 +271,15 @@ form.addEventListener("submit", (e) => {
     const { valido, erros } = validarFilme(dados);
 
     if (!valido) {
-        alert(erros.join("\n"));
+        if(msgErro) {
+            msgErro.textContent = erros.join("\n");
+        }
         return;
     }
 
     const poster = dados.url ||
-        "https://www.themoviedb.org/t/p/w600_and_h900_face/placeholder.jpg";
-
+        "https://www.themoviedb.org/t/p/w600_and_h900_face/qMxuftbWGhI9Vc9CUCoOV268Ndr.jpg";
+        // Problemas modernos requerem soluções modernas. Sim, é um filme chamado 'Placeholder'.
     const {
         url,
         ...dadosFilme
@@ -307,7 +310,6 @@ form.addEventListener("submit", (e) => {
     fechar();
 });
 
-// Delegação de eventos: editar e remover
 lista.addEventListener("click", (e) => {
     const alvo = e.target;
 
@@ -345,12 +347,12 @@ lista.addEventListener("click", (e) => {
         form.elements.status.value = filme.status;
         form.elements.nota.value = filme.nota;
         form.elements.comentario.value = filme.comentario || "";
+        if(msgErro) msgErro.textContent = "";
 
         abrir();
     }
 });
 
-// Filtros por status
 nav.addEventListener("click", (e) => {
     const alvo = e.target;
 
@@ -368,7 +370,6 @@ nav.addEventListener("click", (e) => {
     atualizar();
 });
 
-// Debounce: espera 300 ms após a digitação
 function debounce(funcao, intervalo) {
     let temporizador;
 
@@ -390,5 +391,4 @@ if (busca) {
     busca.addEventListener("input", debounce(aoDigitar, 300));
 }
 
-// Renderização inicial
 atualizar();
