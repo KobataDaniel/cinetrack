@@ -1,5 +1,5 @@
-Integrantes:
-Daniel Kobata Barbosa     RA140453
+Integrantes:<br>
+Daniel Kobata Barbosa     RA140453<br>
 Gabriel Felipe Perissatto RA140640
 
 Instruções para executar (que nós usamos):
@@ -7,5 +7,5 @@ Instruções para executar (que nós usamos):
 - Abra no VSCode
 - Instale a extensão 'Live Server'
 - Abra o index.html e aperte 'Go Live'
-- O site será aberto em seu navegador
+- O site será aberto em seu navegador<br>
 Obs.: Essas são apenas as nossas recomendações. Use o ambiente e extensão de sua preferência.
