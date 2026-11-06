@@ -438,3 +438,42 @@ footer a:hover {
         color: #ff5252;
     }
 }
+
+@media print {
+    :root {
+        --cor-fundo: #ffffff;
+        --cor-superficie: #ffffff;
+        --cor-texto: #000000;
+        --cor-borda: #ccc;
+        --cor-principal: #000000;
+        --cor-branca: #ffffff;
+    }
+
+    header input,
+    header button,
+    nav,
+    .card .acoes,
+    footer,
+    #modal {
+        display: none !important;
+    }
+
+    header {
+        background: transparent !important;
+        color: var(--cor-texto) !important;
+        padding: 0 0 16px 0;
+        border-bottom: 2px solid var(--cor-texto);
+        justify-content: center;
+    }
+
+    .card {
+        box-shadow: none !important;
+        border: 1px solid var(--cor-borda);
+        
+        break-inside: avoid;
+    }
+
+    #lista {
+        padding: 16px 0;
+    }
+}
