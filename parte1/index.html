@@ -25,6 +25,18 @@
         <button data-status="quero">Quero assistir</button>
     </nav>
 
+    <div class="ordenacao">
+        <label for="ordenar">Ordenar por:</label>
+        <select id="ordenar" aria-label="Ordenar filmes">
+            <option value="titulo">Título</option>
+            <option value="ano">Ano</option>
+            <option value="nota">Nota</option>
+        </select>
+
+        <button type="button" id="btn-direcao" aria-label="Alternar direção da ordenação" title="Alternar direção">
+            <span id="icone-direcao">↓</span> <span id="texto-direcao">Decrescente</span>
+        </button>
+    </div>
 
     <main>
         <section id="lista" aria-live="polite">

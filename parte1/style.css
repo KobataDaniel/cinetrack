@@ -477,3 +477,25 @@ footer a:hover {
         padding: 16px 0;
     }
 }
+
+.ordenacao {
+    padding: 0 24px var(--espaco-pequeno) 24px;
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-pequeno);
+    flex-wrap: wrap;
+}
+
+.ordenacao select,
+#btn-direcao {
+    padding: 6px 12px;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-pequeno);
+    background: var(--cor-superficie);
+    color: var(--cor-texto);
+    font: inherit;
+}
+
+#btn-direcao:hover {
+    background: var(--cor-borda);
+}

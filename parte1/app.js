@@ -46,6 +46,10 @@ const form = document.querySelector("#form-filme");
 const nav = document.querySelector("nav");
 const busca = document.querySelector("#busca");
 const msgErro = document.querySelector("#mensagem-erro");
+const selectOrdenar = document.querySelector("#ordenar");
+const btnDirecao = document.querySelector("#btn-direcao");
+const iconeDirecao = document.querySelector("#icone-direcao");
+const textoDirecao = document.querySelector("#texto-direcao");
 
 const CHAVE_STORAGE = "cinetrack:filmes";
 
@@ -146,6 +150,8 @@ let filmes = carregar();
 let editandoId = null;
 let statusAtual = "todos";
 let termoBusca = "";
+let ordemAtual = "titulo";
+let direcaoAtual = "asc";
 
 function criarCard(f) {
     const card = document.createElement("article");
@@ -203,17 +209,36 @@ function renderizarCards(listaFilmes) {
 function aplicarFiltros() {
     const termo = termoBusca.trim().toLocaleLowerCase("pt-BR");
 
-    return filmes.filter((filme) => {
+    const filtrados = filmes.filter((filme) => {
         const correspondeStatus =
             statusAtual === "todos" ||
             filme.status === statusAtual;
 
         const textoFilme = filme.titulo.toLocaleLowerCase("pt-BR");
-
         const correspondeBusca = textoFilme.includes(termo);
 
         return correspondeStatus && correspondeBusca;
     });
+
+    return ordenarFilmes(filtrados, ordemAtual, direcaoAtual);
+}
+
+if (selectOrdenar) {
+    selectOrdenar.addEventListener("change", (e) => {
+        ordemAtual = e.target.value;
+        direcaoAtual = ordemAtual === "titulo" ? "asc" : "desc";
+        atualizarBotaoDirecao();
+        atualizar();
+    });
+}
+
+if (btnDirecao) {
+    btnDirecao.addEventListener("click", () => {
+        direcaoAtual = direcaoAtual === "asc" ? "desc" : "asc";
+        atualizarBotaoDirecao();
+        atualizar();
+    });
+    atualizarBotaoDirecao();
 }
 
 function atualizarTotal() {
@@ -392,3 +417,32 @@ if (busca) {
 }
 
 atualizar();
+
+function ordenarFilmes(listaFilmes, criterio, direcao) {
+    const fator = direcao === "asc" ? 1 : -1;
+
+    return [...listaFilmes].sort((a, b) => {
+        if (criterio === "titulo") {
+            return a.titulo.localeCompare(b.titulo, "pt-BR", { sensitivity: "base" }) * fator;
+        }
+        if (criterio === "ano") {
+            return (a.ano - b.ano) * fator;
+        }
+        if (criterio === "nota") {
+            return (a.nota - b.nota) * fator;
+        }
+        return 0;
+    });
+}
+
+function atualizarBotaoDirecao() {
+    if (btnDirecao) {
+        if (direcaoAtual === "asc") {
+            iconeDirecao.textContent = "↑";
+            textoDirecao.textContent = "Crescente";
+        } else {
+            iconeDirecao.textContent = "↓";
+            textoDirecao.textContent = "Decrescente";
+        }
+    }
+}
