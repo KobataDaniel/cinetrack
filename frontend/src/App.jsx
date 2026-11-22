@@ -1,15 +1,29 @@
-import { useState } from "react";
-import { filmesIniciais, gerarId } from "./data/filmes.js";
+import { useState, useEffect } from "react";
+import { gerarId } from "./data/filmes.js";
+import { listar } from "./api.js";
 import Header from "./components/Header.jsx";
 import Filtros from "./components/Filtros.jsx";
 import ListaFilmes from "./components/ListaFilmes.jsx";
 import ModalFilme from "./components/ModalFilme.jsx";
 
 function App() {
-  const [filmes, setFilmes] = useState(filmesIniciais);
+  const [filmes, setFilmes] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
   const [status, setStatus] = useState("todos");
   const [busca, setBusca] = useState("");
   const [editando, setEditando] = useState(null);
+
+  useEffect(() => {
+    listar()
+      .then((dados) => setFilmes(dados))
+      .catch((erro) => setErro(erro.message))
+      .finally(() => setCarregando(false));
+  }, []);
+
+  useEffect(() => {
+    document.title = `CineTrack (${filmes.length})`;
+  }, [filmes.length]);
 
   const visiveis = filmes
     .filter((filme) => status === "todos" || filme.status === status)
@@ -48,6 +62,21 @@ function App() {
     setEditando(null);
   }
 
+  let conteudo;
+  if (carregando) {
+    conteudo = <p>Carregando...</p>;
+  } else if (erro) {
+    conteudo = <p className="erro">Erro: {erro}</p>;
+  } else {
+    conteudo = (
+      <ListaFilmes
+        filmes={visiveis}
+        aoEditar={setEditando}
+        aoRemover={remover}
+      />
+    );
+  }
+
   return (
     <>
       <Header
@@ -56,11 +85,7 @@ function App() {
         aoAdicionar={() => setEditando({})}
       />
       <Filtros ativo={status} aoMudar={setStatus} />
-      <ListaFilmes
-        filmes={visiveis}
-        aoEditar={setEditando}
-        aoRemover={remover}
-      />
+      <main>{conteudo}</main>
       {editando !== null && (
         <ModalFilme
           filme={editando}

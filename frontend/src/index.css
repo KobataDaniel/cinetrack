@@ -499,3 +499,14 @@ footer a:hover {
 #btn-direcao:hover {
   background: var(--cor-borda);
 }
+
+main>p {
+  text-align: center;
+  padding: 48px 24px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+main>p.erro {
+  color: #d32f2f;
+}
