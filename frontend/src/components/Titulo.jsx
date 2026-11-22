@@ -1,4 +1,3 @@
-// frontend/src/components/Titulo.jsx
 export default function Titulo() {
     return (
         <>

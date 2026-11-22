@@ -1,9 +1,13 @@
-// frontend/src/components/Header.jsx
-function Header() {
+function Header({ busca, aoBuscar }) {
     return (
         <header>
             <h1>CineTrack</h1>
-            <input id="busca" placeholder="Buscar filme..." />
+            <input
+                id="busca"
+                placeholder="Buscar filme..."
+                value={busca}
+                onChange={(e) => aoBuscar(e.target.value)}
+            />
             <button className="add_big">+ Adicionar</button>
         </header>
     );
