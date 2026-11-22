@@ -1,6 +1,6 @@
 import CardFilme from "./CardFilme.jsx";
 
-function ListaFilmes({ filmes }) {
+function ListaFilmes({ filmes, aoEditar, aoRemover }) {
     if (filmes.length === 0) {
         return <p>Nenhum filme encontrado.</p>;
     }
@@ -8,7 +8,12 @@ function ListaFilmes({ filmes }) {
     return (
         <section id="lista" aria-live="polite">
             {filmes.map((filme) => (
-                <CardFilme key={filme.id} filme={filme} />
+                <CardFilme
+                    key={filme.id}
+                    filme={filme}
+                    aoEditar={aoEditar}
+                    aoRemover={aoRemover}
+                />
             ))}
         </section>
     );
