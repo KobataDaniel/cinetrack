@@ -5,12 +5,29 @@ import Filtros from "./components/Filtros.jsx";
 import ListaFilmes from "./components/ListaFilmes.jsx";
 import ModalFilme from "./components/ModalFilme.jsx";
 
+const CHAVE_FILTROS = "cinetrack:filtros";
+
+function lerFiltrosSalvos() {
+  try {
+    const salvo = localStorage.getItem(CHAVE_FILTROS);
+    if (!salvo) return { status: "todos", busca: "" };
+
+    const dados = JSON.parse(salvo);
+    return {
+      status: typeof dados?.status === "string" ? dados.status : "todos",
+      busca: typeof dados?.busca === "string" ? dados.busca : "",
+    };
+  } catch {
+    return { status: "todos", busca: "" };
+  }
+}
+
 function App() {
   const [filmes, setFilmes] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
-  const [status, setStatus] = useState("todos");
-  const [busca, setBusca] = useState("");
+  const [status, setStatus] = useState(() => lerFiltrosSalvos().status);
+  const [busca, setBusca] = useState(() => lerFiltrosSalvos().busca);
   const [editando, setEditando] = useState(null);
 
   useEffect(() => {
@@ -23,6 +40,14 @@ function App() {
   useEffect(() => {
     document.title = `CineTrack (${filmes.length})`;
   }, [filmes.length]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(CHAVE_FILTROS, JSON.stringify({ busca, status }));
+    } catch (erro) {
+      console.error("Erro ao salvar filtros:", erro);
+    }
+  }, [busca, status]);
 
   const visiveis = filmes
     .filter((filme) => status === "todos" || filme.status === status)
