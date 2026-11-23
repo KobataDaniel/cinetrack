@@ -73,6 +73,9 @@ function App() {
         aoAdicionar={() => setEditando({})}
       />
       <Filtros ativo={status} aoMudar={setStatus} />
+      <p style={{ padding: "0 24px" }}>
+        Exibindo {visiveis.length} de {filmes.length} filmes
+      </p>
       <main>{conteudo}</main>
       {editando !== null && (
         <ModalFilme
