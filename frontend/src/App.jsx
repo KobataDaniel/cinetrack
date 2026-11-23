@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { gerarId } from "./data/filmes.js";
-import { listar } from "./api.js";
+import { listar, criar, atualizar, remover } from "./api.js";
 import Header from "./components/Header.jsx";
 import Filtros from "./components/Filtros.jsx";
 import ListaFilmes from "./components/ListaFilmes.jsx";
@@ -31,33 +30,22 @@ function App() {
       filme.titulo.toLowerCase().includes(busca.toLowerCase())
     );
 
-  function adicionar(novoFilme) {
-    setFilmes((anteriores) => [
-      ...anteriores,
-      {
-        ...novoFilme,
-        id: gerarId(anteriores),
-      },
-    ]);
-  }
-
-  function remover(id) {
+  async function removerFilme(id) {
+    await remover(id);
     setFilmes((anteriores) => anteriores.filter((filme) => filme.id !== id));
   }
 
-  function editar(id, alteracoes) {
-    setFilmes((anteriores) =>
-      anteriores.map((filme) =>
-        filme.id === id ? { ...filme, ...alteracoes } : filme
-      )
-    );
-  }
-
-  function salvar(dados) {
+  async function salvar(dados) {
     if (editando.id) {
-      editar(editando.id, dados);
+      const atualizado = await atualizar(editando.id, dados);
+      setFilmes((anteriores) =>
+        anteriores.map((filme) =>
+          filme.id === atualizado.id ? atualizado : filme
+        )
+      );
     } else {
-      adicionar(dados);
+      const novo = await criar(dados);
+      setFilmes((anteriores) => [...anteriores, novo]);
     }
     setEditando(null);
   }
@@ -72,7 +60,7 @@ function App() {
       <ListaFilmes
         filmes={visiveis}
         aoEditar={setEditando}
-        aoRemover={remover}
+        aoRemover={removerFilme}
       />
     );
   }

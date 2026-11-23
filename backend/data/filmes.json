@@ -51,12 +51,12 @@
   },
   {
     "id": 6,
-    "titulo": "Cidade de Deus",
-    "ano": 2002,
-    "genero": "Drama",
-    "poster": "https://www.themoviedb.org/t/p/w600_and_h900_face/gfnXixcGC060QcG6JPxN6AMdVsq.jpg",
-    "nota": 4,
-    "status": "quero",
-    "comentario": ""
+    "titulo": "teste final",
+    "ano": 2006,
+    "genero": "Filme de Ação ",
+    "poster": "https://static.todamateria.com.br/upload/pi/ng/pinguimreal-cke.jpg?auto_optimize=low",
+    "status": "assistido",
+    "nota": 5,
+    "comentario": "Esse é um teste feito para ver se esta tudo ok ! \n"
   }
 ]
