@@ -24,6 +24,23 @@ function gerarId(lista) {
     return Math.max(0, ...ids) + 1;
 }
 
+function calcularMediaNotas(lista) {
+    if (!lista || lista.length === 0) return 0;
+
+    const soma = lista.reduce((acumulador, filme) => acumulador + filme.nota, 0);
+    const media = soma / lista.length;
+
+    return Number(media.toFixed(1));
+}
+
+function contarPorStatus(lista) {
+    return lista.reduce((acumulador, filme) => {
+        const status = filme.status;
+        acumulador[status] = (acumulador[status] || 0) + 1;
+        return acumulador;
+    }, {});
+}
+
 app.get("/filmes", (req, res) => {
     let lista = lerFilmes();
 
@@ -31,7 +48,22 @@ app.get("/filmes", (req, res) => {
         lista = lista.filter((f) => f.status === req.query.status);
     }
 
+    if (req.query.q) {
+        const termo = req.query.q.toLowerCase();
+        lista = lista.filter((f) => f.titulo.toLowerCase().includes(termo));
+    }
+
     res.json(lista);
+});
+
+app.get("/stats", (req, res) => {
+    const lista = lerFilmes();
+
+    res.json({
+        total: lista.length,
+        porStatus: contarPorStatus(lista),
+        mediaNotas: calcularMediaNotas(lista),
+    });
 });
 
 app.get("/filmes/:id", (req, res) => {
