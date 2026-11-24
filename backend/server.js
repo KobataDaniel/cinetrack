@@ -6,6 +6,7 @@ const path = require("path");
 
 const app = express();
 const ARQUIVO = path.join(__dirname, "data", "filmes.json");
+const STATUS_VALIDOS = ["assistido", "assistindo", "quero"];
 
 app.use(cors());
 app.use(morgan("dev"));
@@ -39,6 +40,30 @@ function contarPorStatus(lista) {
         acumulador[status] = (acumulador[status] || 0) + 1;
         return acumulador;
     }, {});
+}
+
+function validarFilme(filme) {
+    const erros = [];
+
+    if (!filme.titulo || typeof filme.titulo !== "string" || !filme.titulo.trim()) {
+        erros.push("título é obrigatório");
+    }
+
+    const ano = Number(filme.ano);
+    if (!Number.isInteger(ano) || ano < 1888 || ano > 2030) {
+        erros.push("ano deve estar entre 1888 e 2030");
+    }
+
+    const nota = Number(filme.nota);
+    if (!Number.isFinite(nota) || nota < 1 || nota > 5) {
+        erros.push("nota deve estar entre 1 e 5");
+    }
+
+    if (!STATUS_VALIDOS.includes(filme.status)) {
+        erros.push("status deve ser assistido, assistindo ou quero");
+    }
+
+    return erros;
 }
 
 app.get("/filmes", (req, res) => {
@@ -78,14 +103,21 @@ app.get("/filmes/:id", (req, res) => {
 });
 
 app.post("/filmes", (req, res) => {
-    const dados = req.body;
+    const dados = req.body || {};
+    const erros = validarFilme(dados);
 
-    if (!dados.titulo || !dados.ano) {
-        return res.status(400).json({ erro: "Dados obrigatórios" });
+    if (erros.length > 0) {
+        return res.status(400).json({ erros });
     }
 
     const lista = lerFilmes();
-    const novo = { id: gerarId(lista), ...dados };
+    const novo = {
+        ...dados,
+        id: gerarId(lista),
+        titulo: dados.titulo.trim(),
+        ano: Number(dados.ano),
+        nota: Number(dados.nota),
+    };
     lista.push(novo);
     salvarFilmes(lista);
 
@@ -101,7 +133,19 @@ app.put("/filmes/:id", (req, res) => {
         return res.status(404).json({ erro: "Filme não encontrado" });
     }
 
-    lista[i] = { ...lista[i], ...req.body, id };
+    const mesclado = { ...lista[i], ...req.body, id };
+    const erros = validarFilme(mesclado);
+
+    if (erros.length > 0) {
+        return res.status(400).json({ erros });
+    }
+
+    lista[i] = {
+        ...mesclado,
+        titulo: mesclado.titulo.trim(),
+        ano: Number(mesclado.ano),
+        nota: Number(mesclado.nota),
+    };
     salvarFilmes(lista);
 
     res.json(lista[i]);

@@ -15,6 +15,7 @@ function ModalFilme({ filme, aoSalvar, aoFechar }) {
         ...VAZIO,
         ...filme,
     });
+    const [erro, setErro] = useState("");
 
     function atualizar(campo, valor) {
         setDados((anteriores) => ({
@@ -23,13 +24,18 @@ function ModalFilme({ filme, aoSalvar, aoFechar }) {
         }));
     }
 
-    function submeter(evento) {
+    async function submeter(evento) {
         evento.preventDefault();
-        aoSalvar({
-            ...dados,
-            ano: Number(dados.ano),
-            nota: Number(dados.nota),
-        });
+        setErro("");
+        try {
+            await aoSalvar({
+                ...dados,
+                ano: Number(dados.ano),
+                nota: Number(dados.nota),
+            });
+        } catch (err) {
+            setErro(err.message);
+        }
     }
 
     return (
@@ -47,6 +53,8 @@ function ModalFilme({ filme, aoSalvar, aoFechar }) {
                 <h2>{filme.id ? "Editar filme" : "Novo filme"}</h2>
 
                 <form id="form-filme" onSubmit={submeter}>
+                    {erro && <p className="erro-msg">{erro}</p>}
+
                     <div className="campo">
                         <label htmlFor="titulo">Título</label>
                         <input
