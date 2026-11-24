@@ -1,7 +1,7 @@
 Integrantes:<br>
 Daniel Kobata Barbosa     RA140453<br>
 Gabriel Felipe Perissatto RA140640
-Parte (1) 
+## Parte (1) 
 Instruções para executar (que nós usamos):
 - Baixe o projeto no Github
 - Abra no VSCode
@@ -9,8 +9,8 @@ Instruções para executar (que nós usamos):
 - Abra o index.html e aperte 'Go Live'
 - O site será aberto em seu navegador<br>
 Obs.: Essas são apenas as nossas recomendações. Use o ambiente e extensão de sua preferência.
-
-Parte 2
+-------------------------------------------------------------------------------------------------------------------------------------------
+## Parte 2
 Aplicação full-stack para gerenciamento de filmes, composta por frontend em React (Vite) e API REST em Node.js (Express) com persistência em arquivo JSON.
 Estrutura do projeto
 - `parte1/` — Versão inicial estática (tag `v1.0`)
